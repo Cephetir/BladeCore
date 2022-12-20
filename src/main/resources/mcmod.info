@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "bladecore",
+    "name": "BladeCore",
+    "description": "Utility library for client-focused modding on Forge 1.8.9",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://bladecore.ilarea.ru/",
+    "updateUrl": "",
+    "authorList": ["Cephetir"],
+    "credits": "Cephetir",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

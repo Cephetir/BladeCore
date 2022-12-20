@@ -1,0 +1,24 @@
+{
+  "package": "me.cephetir.bladecore.mixins",
+  "refmap": "mixins.bladecore.refmap.json",
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "EventBusMixin",
+    "NetworkManagerMixin",
+    "accessors.EventBusAccessor",
+    "optimization.PlayerConfigurationsMixin"
+  ],
+  "client": [
+    "GuiScreenMixin",
+    "MinecraftMixin",
+    "accessors.EntityRendererAccessor",
+    "accessors.MinecraftAccessor",
+    "accessors.RenderAccessor",
+    "accessors.RenderManagerAccessor",
+    "accessors.TimerAccessor",
+    "optimization.ServerListEntryNormalMixin",
+    "render.FontRendererMixin"
+  ],
+  "verbose": true
+}
