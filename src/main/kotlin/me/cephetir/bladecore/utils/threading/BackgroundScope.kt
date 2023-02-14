@@ -3,8 +3,7 @@ package me.cephetir.bladecore.utils.threading
 import kotlinx.coroutines.*
 import me.cephetir.bladecore.BladeCore
 
-@OptIn(DelicateCoroutinesApi::class)
-object BackgroundScope : CoroutineScope by CoroutineScope(newFixedThreadPoolContext(4, "BladeCore-Thread")) {
+object BackgroundScope : CoroutineScope by CoroutineScope(Dispatchers.IO + SupervisorJob() + CoroutineName("BladeCore Coroutine")) {
     val jobs = LinkedHashMap<BackgroundJob, Job?>()
 
     fun stop() {

@@ -1,7 +1,7 @@
 import dev.architectury.pack200.java.Pack200Adapter
 
 plugins {
-    kotlin("jvm") version "1.7.21"
+    kotlin("jvm") version "1.8.10"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("gg.essential.loom") version "0.10.0.+"
     id("io.github.juuxel.loom-quiltflower-mini") version "7d04f32023"
@@ -10,7 +10,7 @@ plugins {
     `maven-publish`
 }
 
-version = "0.0.1"
+version = "0.0.1-e"
 group = "me.cephetir"
 
 base {
@@ -64,7 +64,7 @@ dependencies {
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
     // Essential
-    val essential = "gg.essential:essential-1.8.9-forge:11109+g01cbb1869"
+    val essential = "gg.essential:essential-1.8.9-forge:11899+g9cc271010"
     api(essential)
     compileOnly(essential)
     runtimeOnly("gg.essential:loader-launchwrapper:1.1.3") {
@@ -132,6 +132,8 @@ tasks {
         archiveClassifier.set("dev")
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         configurations = listOf(include)
+
+        //relocate("com.jagrosh.discordipc", "me.cephetir.bladecore.discord.discordipc")
 
         exclude(
             "**/LICENSE.md",
