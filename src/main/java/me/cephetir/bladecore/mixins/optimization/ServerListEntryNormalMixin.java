@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ServerListEntryNormalMixin {
     @Inject(method = "drawEntry", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ServerList;saveServerList()V"), cancellable = true)
     private void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, CallbackInfo ci) {
-        if (BladeConfig.INSTANCE.getServerlistFix())
+        if (BladeConfig.INSTANCE.getServerlistFix().getValue())
             ci.cancel();
     }
 }

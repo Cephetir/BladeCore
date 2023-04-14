@@ -13,6 +13,7 @@
     "GuiScreenMixin",
     "MinecraftMixin",
     "accessors.EntityRendererAccessor",
+    "accessors.IMixinShaderGroup",
     "accessors.MinecraftAccessor",
     "accessors.RenderAccessor",
     "accessors.RenderManagerAccessor",

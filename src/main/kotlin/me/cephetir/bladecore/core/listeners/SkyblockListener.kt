@@ -130,7 +130,8 @@ object SkyblockListener {
             joinedWorld = System.currentTimeMillis()
             return
         }
-        onSkyblock = scoreObjective.displayName.stripColor().startsWith("SKYBLOCK")
+        val displayName = scoreObjective.displayName.stripColor()
+        onSkyblock = displayName.startsWith("SKYBLOCK") || displayName.startsWith("SKIBLOCK")
         if (!onSkyblock) return
 
         try {

@@ -7,6 +7,8 @@ import org.spongepowered.asm.mixin.Mixins
 object BladeCoreInit {
     @JvmStatic
     fun initialize() {
+        if (System.getProperty("bladecore.init", "false") == "true") return
+
         MixinBootstrap.init()
         Mixins.addConfigurations("mixins.bladecore.json")
         MixinEnvironment.getDefaultEnvironment().obfuscationContext = "searge"

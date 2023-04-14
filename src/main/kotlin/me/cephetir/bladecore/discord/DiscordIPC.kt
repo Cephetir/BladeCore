@@ -38,8 +38,8 @@ internal object DiscordIPC : AbstractDiscordIPC() {
     }
 
     override fun updateRPC(): RichPresence = rpcBuilder
-        .setDetails(getLine(LineInfo.values()[BladeConfig.discordRpcDetail]))
-        .setState(getLine(LineInfo.values()[BladeConfig.discordRpcState]))
+        .setDetails(getLine(LineInfo.values()[BladeConfig.discordRpcDetail.value]))
+        .setState(getLine(LineInfo.values()[BladeConfig.discordRpcState.value]))
         .build()
 
     private fun getLine(line: Any): String = when (line as LineInfo) {
@@ -71,7 +71,7 @@ internal object DiscordIPC : AbstractDiscordIPC() {
         }
     }
 
-    private enum class LineInfo {
+    enum class LineInfo {
         CLIENT, VERSION, WORLD, DIMENSION, USERNAME, HEALTH, HUNGER, SERVER_IP, SPEED, HELD_ITEM, FPS, TPS
     }
 }

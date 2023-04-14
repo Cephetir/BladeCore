@@ -39,9 +39,8 @@ object HttpUtils {
         reqConf = RequestConfig.custom()
             .setSocketTimeout(10000)
             .setConnectTimeout(10000)
-            .setConnectionRequestTimeout(5000)
-            .setRedirectsEnabled(false)
-            .setMaxRedirects(0)
+            .setConnectionRequestTimeout(10000)
+            .setRedirectsEnabled(true)
             .build()
         standardHandler = StandardHttpRequestRetryHandler(3, true)
     }
@@ -140,20 +139,21 @@ object HttpUtils {
         return httpRequest
     }
 
-    private fun initSSL(builder: HttpClientBuilder) {
-        val trustAllCerts = arrayOf<TrustManager>(
-            object : X509TrustManager {
-                override fun getAcceptedIssuers(): Array<X509Certificate?> {
-                    return arrayOfNulls(0)
-                }
-
-                override fun checkClientTrusted(certs: Array<X509Certificate>, authType: String) {
-                }
-
-                override fun checkServerTrusted(certs: Array<X509Certificate>, authType: String) {
-                }
+    private val trustAllCerts = arrayOf<TrustManager>(
+        object : X509TrustManager {
+            override fun getAcceptedIssuers(): Array<X509Certificate?> {
+                return arrayOfNulls(0)
             }
-        )
+
+            override fun checkClientTrusted(certs: Array<X509Certificate>, authType: String) {
+            }
+
+            override fun checkServerTrusted(certs: Array<X509Certificate>, authType: String) {
+            }
+        }
+    )
+
+    private fun initSSL(builder: HttpClientBuilder) {
         val sc = SSLContext.getInstance("SSL")
         sc.init(null, trustAllCerts, SecureRandom())
         val scsf = SSLConnectionSocketFactory(sc)

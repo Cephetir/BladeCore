@@ -8,7 +8,6 @@ import me.cephetir.bladecore.BladeCore
 import me.cephetir.bladecore.core.config.BladeConfig
 import me.cephetir.bladecore.utils.HttpUtils
 import me.cephetir.bladecore.utils.minecraft.ChatUtils
-import me.cephetir.bladecore.utils.minecraft.GuiUtils
 import me.cephetir.bladecore.utils.threading.BackgroundScope
 import me.cephetir.bladecore.utils.threading.onMainThread
 
@@ -17,12 +16,12 @@ object BladeCommand : Command(BladeCore.MODID, true) {
 
     @DefaultHandler
     fun handle() {
-        GuiUtils.openScreen(BladeConfig.gui() ?: return ChatUtils.msg("§cFailed to open GUI screen!"))
+        BladeConfig.gui()
     }
 
     @SubCommand("config", description = "Opens the config GUI for " + BladeCore.MOD_NAME)
     fun config() {
-        GuiUtils.openScreen(BladeConfig.gui() ?: return ChatUtils.msg("§cFailed to open GUI screen!"))
+        BladeConfig.gui()
     }
 
     @SubCommand("changelog", description = "Shows changelog for the last ${BladeCore.MOD_NAME} update")

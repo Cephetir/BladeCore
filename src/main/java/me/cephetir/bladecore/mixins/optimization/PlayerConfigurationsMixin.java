@@ -41,7 +41,7 @@ public abstract class PlayerConfigurationsMixin {
     @Dynamic
     @Inject(method = "getPlayerConfiguration", at = @At("HEAD"), cancellable = true)
     private static void getPlayerConfiguration(AbstractClientPlayer player, CallbackInfoReturnable<PlayerConfiguration> cir) {
-        if (!BladeConfig.INSTANCE.getOptifineCapes()) return;
+        if (!BladeConfig.INSTANCE.getOptifineCapes().getValue()) return;
         if (Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().thePlayer.ticksExisted < 20) {
             cir.setReturnValue(null);
             return;

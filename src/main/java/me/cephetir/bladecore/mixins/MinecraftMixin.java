@@ -1,12 +1,9 @@
 package me.cephetir.bladecore.mixins;
 
-import com.google.gson.JsonObject;
 import me.cephetir.bladecore.core.event.BladeEventBus;
 import me.cephetir.bladecore.core.event.events.RunGameLoopEvent;
-import me.cephetir.bladecore.remote.metrics.Metrics;
 import me.cephetir.bladecore.utils.ShutdownHook;
 import net.minecraft.client.Minecraft;
-import net.minecraft.crash.CrashReport;
 import net.minecraft.util.Session;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,9 +11,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
@@ -55,7 +49,7 @@ public class MinecraftMixin {
         BladeEventBus.INSTANCE.post(new RunGameLoopEvent.End());
     }
 
-    @Inject(method = "displayCrashReport", at = @At("HEAD"))
+    /*@Inject(method = "displayCrashReport", at = @At("HEAD"))
     private void displayCrashReport(CrashReport crashReportIn, CallbackInfo ci) {
         String description = crashReportIn.getDescription();
         String stackTrace = crashReportIn.getCauseStackTraceOrString();
@@ -67,6 +61,6 @@ public class MinecraftMixin {
         obj.addProperty("crash", full);
 
         String encrypted = Base64.getEncoder().encodeToString(obj.toString().getBytes(StandardCharsets.UTF_8));
-        Metrics.INSTANCE.send(encrypted);
-    }
+        //Metrics.INSTANCE.send(encrypted);
+    }*/
 }

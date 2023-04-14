@@ -1,7 +1,7 @@
 import dev.architectury.pack200.java.Pack200Adapter
 
 plugins {
-    kotlin("jvm") version "1.8.10"
+    kotlin("jvm") version "1.8.20"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("gg.essential.loom") version "0.10.0.+"
     id("io.github.juuxel.loom-quiltflower-mini") version "7d04f32023"
@@ -10,7 +10,7 @@ plugins {
     `maven-publish`
 }
 
-version = "0.0.1-e"
+version = "0.0.2-b"
 group = "me.cephetir"
 
 base {
@@ -64,12 +64,18 @@ dependencies {
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
     // Essential
-    val essential = "gg.essential:essential-1.8.9-forge:11899+g9cc271010"
+    val essential = "gg.essential:essential-1.8.9-forge:12174+g776a77319"
     api(essential)
     compileOnly(essential)
     runtimeOnly("gg.essential:loader-launchwrapper:1.1.3") {
         isTransitive = false
     }
+
+    include(platform(kotlin("bom")))
+    include(kotlin("stdlib-jdk8"))
+    include(kotlin("reflect"))
+    include("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.5.0")
+    include("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
     // Discord RPC
     include("com.github.cbyrneee:DiscordIPC:e18542f6")
