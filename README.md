@@ -11,7 +11,7 @@ Minecraft Forge 1.8.9 developement library.
 - Many extra utilities
 
 ## Install
-![Latest Version](https://badgen.net/github/tag/Cephetir/BladeCore)
+![Latest Version](https://badgen.net/github/tag/cephetir/bladecore)
 
 build.gradle.kts:
 ```kotlin
