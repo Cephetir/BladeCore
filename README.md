@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    include("me.cephetir:bladecore-loader-1.8.9-forge:1.1")
+    include("me.cephetir:bladecore-loader-1.8.9-forge:1.3")
     compileOnly("me.cephetir:bladecore-1.8.9-forge:<LATEST>")
 }
 ```
