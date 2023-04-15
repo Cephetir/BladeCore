@@ -9,13 +9,12 @@ class SelectorSetting(
     override var category: String = "",
     override var subCategory: String = "",
 
-    override var value: Int = 0,
     var options: Array<String> = emptyArray(),
 
     override var isHidden: () -> Boolean = { false },
     override var listener: (Int) -> Unit = {}
 
-) : AbstractSetting<Int>(name, description, category, subCategory, value, isHidden, listener) {
+) : AbstractSetting<Int>(name, description, category, subCategory, 0, isHidden, listener) {
     override fun checkValues() {
         if (category.isEmpty())
             throw IllegalArgumentException("Category cannot be empty!")

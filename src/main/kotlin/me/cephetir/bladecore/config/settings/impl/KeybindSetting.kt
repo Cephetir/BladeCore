@@ -11,12 +11,10 @@ class KeybindSetting(
     override var category: String = "",
     override var subCategory: String = "",
 
-    override var value: Int = Keyboard.KEY_NONE,
-
     override var isHidden: () -> Boolean = { false },
     override var listener: (Int) -> Unit = {}
 
-) : AbstractSetting<Int>(name, description, category, subCategory, value, isHidden, listener) {
+) : AbstractSetting<Int>(name, description, category, subCategory, Keyboard.KEY_NONE, isHidden, listener) {
     override fun checkValues() {
         if (category.isEmpty())
             throw IllegalArgumentException("Category cannot be empty!")

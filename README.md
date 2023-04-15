@@ -20,10 +20,10 @@ repositories {
 }
 
 dependencies {
-    include("me.cephetir:bladecore-loader-1.8.9-forge:1.3")
+    include("me.cephetir:bladecore-loader-1.8.9-forge:1.2")
     compileOnly("me.cephetir:bladecore-1.8.9-forge:<LATEST>")
 }
 ```
 \
 \
-I don't know who needs it ¯\_(ツ)_/¯
+I don't know who needs it ¯\\_(ツ)_/¯

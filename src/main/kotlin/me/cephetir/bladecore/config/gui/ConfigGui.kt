@@ -28,6 +28,11 @@ class ConfigGui(private val settingManager: SettingManager) : GuiScreen() {
             fontRenderer48 = CustomFontRenderer(font.deriveFont(0, 48f))
         }
     }
+
+    private var old = me.cephetir.bladecore.utils.mc.gameSettings.guiScale
+    init {
+        me.cephetir.bladecore.utils.mc.gameSettings.guiScale = 2
+    }
     private val frame = Frame(this, settingManager)
 
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
@@ -62,5 +67,6 @@ class ConfigGui(private val settingManager: SettingManager) : GuiScreen() {
 
     override fun onGuiClosed() {
         settingManager.saveConfig()
+        mc.gameSettings.guiScale = old
     }
 }

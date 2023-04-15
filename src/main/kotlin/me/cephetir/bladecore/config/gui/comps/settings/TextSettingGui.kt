@@ -16,7 +16,7 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
     private val colorBG = Color(0, 0, 0, 175)
 
     private var focused = false
-    private var cursorPosition = setting.value.length
+    private var cursorPosition = setting.value.length - 1
     private var hovered = false
     private var textColor = 0f
 
@@ -26,7 +26,7 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
         val hy = y + 6.5f
         val hy1 = y + 23.5f
         hovered = hx < mouseX && hx1 > mouseX && hy < mouseY && hy1 > mouseY
-        cursorPosition = cursorPosition.coerceIn(0, setting.value.length)
+        cursorPosition = cursorPosition.coerceIn(0, setting.value.length - 1)
 
         textColor = RenderUtils.animate(if (hovered || focused) 1f else 0f, textColor, 0.2f)
         val color2 = when {
@@ -129,7 +129,7 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
             }
 
             205 -> {
-                cursorPosition = (cursorPosition + 1).coerceAtMost(setting.value.length)
+                cursorPosition = (cursorPosition + 1).coerceAtMost(setting.value.length - 1)
                 return
             }
 
@@ -149,7 +149,7 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
             }
 
             207 -> {
-                cursorPosition = setting.value.length
+                cursorPosition = setting.value.length - 1
                 return
             }
         }
