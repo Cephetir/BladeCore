@@ -10,7 +10,7 @@ plugins {
     `maven-publish`
 }
 
-version = "0.0.2-b"
+version = "0.0.2-c"
 group = "me.cephetir"
 
 base {
@@ -177,12 +177,12 @@ tasks {
                 listOf(
                     "-Xjvm-default=all",
                     "-Xbackend-threads=0",
-                    "-Xuse-k2"
+                    //"-Xuse-k2"
                 )
         }
         kotlinDaemonJvmArguments.set(
             listOf(
-                "-Xmx2G",
+                "-Xmx4G",
                 "-Dkotlin.enableCacheBuilding=true",
                 "-Dkotlin.useParallelTasks=true",
                 "-Dkotlin.enableFastIncremental=true"
