@@ -20,14 +20,6 @@ base {
 loom {
     launchConfigs {
         getByName("client") {
-            property("mixin.debug", "true")
-            property("mixin.debug.decompile", "true")
-            property("mixin.debug.verbose", "true")
-            property("mixin.debug.export", "true")
-            property("mixin.dumpTargetOnFailure", "true")
-            property("legacy.debugClassLoading", "true")
-            property("legacy.debugClassLoadingSave", "true")
-            property("legacy.debugClassLoadingFiner", "true")
             arg("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
             arg("--mixin", "mixins.bladecore.json")
         }

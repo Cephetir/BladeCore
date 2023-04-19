@@ -16,9 +16,9 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
     private val colorBG = Color(0, 0, 0, 175)
 
     private var focused = false
-    private var cursorPosition = setting.value.length
     private var hovered = false
     private var textColor = 0f
+    private var chars = -1
 
     override fun draw(x: Float, y: Float, width: Float, mouseX: Int, mouseY: Int) {
         val hx = x + width - 3 - (10 + ConfigGui.fontRenderer16.getStringWidth(setting.value)).coerceAtLeast(30)
@@ -26,7 +26,6 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
         val hy = y + 6.5f
         val hy1 = y + 23.5f
         hovered = hx < mouseX && hx1 > mouseX && hy < mouseY && hy1 > mouseY
-        cursorPosition = cursorPosition.coerceIn(0, setting.value.length)
 
         textColor = RenderUtils.animate(if (hovered || focused) 1f else 0f, textColor, 0.2f)
         val color2 = when {
@@ -64,8 +63,9 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
             )
         }
 
+        val w = (10 + ConfigGui.fontRenderer16.getStringWidth(setting.value)).coerceIn(30, 120)
         RoundUtils.drawSmoothRoundedRect(
-            x + width - 3 - (10 + ConfigGui.fontRenderer16.getStringWidth(setting.value)).coerceAtLeast(30),
+            x + width - 3 - w,
             y + 6.5f,
             x + width - 3,
             y + 23.5f,
@@ -74,7 +74,7 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
         )
 
         RoundUtils.drawSmoothRoundedRect(
-            x + width - 2 - (10 + ConfigGui.fontRenderer16.getStringWidth(setting.value)).coerceAtLeast(30),
+            x + width - 2 - w,
             y + 7.5f,
             x + width - 4,
             y + 22.5f,
@@ -82,31 +82,27 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
             color2.rgb
         )
 
+        val scroll = w <= ConfigGui.fontRenderer16.getStringWidth(setting.value) + 4
+        val text = if (!scroll) setting.value
+        else {
+            if (chars == -1) {
+                chars = 5
+                while (w <= ConfigGui.fontRenderer16.getStringWidth(setting.value.substring(chars)) + 4)
+                    chars++
+            }
+
+            setting.value.substring(chars)
+        }
         ConfigGui.fontRenderer16.drawString(
-            setting.value,
-            x + width - 2 - (10 + ConfigGui.fontRenderer16.getStringWidth(setting.value)).coerceAtLeast(30) / 2.0 - ConfigGui.fontRenderer16.getStringWidth(setting.value) / 2.0,
+            text,
+            x + width - 2 - w / 2.0 - ConfigGui.fontRenderer16.getStringWidth(text) / 2.0,
             y + 15 - ConfigGui.fontRenderer16.getHeight() / 2.0,
             colorPrimary
-        )
-        if (focused) RenderUtils.drawRect(
-            x + width - 2 -
-                    (10 + ConfigGui.fontRenderer16.getStringWidth(setting.value)).coerceAtLeast(30) / 2f -
-                    ConfigGui.fontRenderer16.getStringWidth(setting.value) / 2f +
-                    ConfigGui.fontRenderer16.getStringWidth(setting.value.substring(0, cursorPosition)),
-            y + 15 - ConfigGui.fontRenderer16.getHeight() / 2f,
-            x + width - 2 -
-                    (10 + ConfigGui.fontRenderer16.getStringWidth(setting.value)).coerceAtLeast(30) / 2f -
-                    ConfigGui.fontRenderer16.getStringWidth(setting.value) / 2f +
-                    ConfigGui.fontRenderer16.getStringWidth(setting.value.substring(0, cursorPosition)) + 2,
-            y + 15 + ConfigGui.fontRenderer16.getHeight() / 2f,
-            Color.WHITE
         )
     }
 
     override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int) {
         focused = if (hovered) !focused else false
-        if (focused)
-            cursorPosition = setting.value.length
     }
 
     override fun mouseClickMove(mouseX: Int, mouseY: Int, clickedMouseButton: Int, timeSinceLastClick: Long) {
@@ -122,37 +118,10 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
             writeText(GuiScreen.getClipboardString())
             return
         }
-        when (keyCode) {
-            203 -> {
-                cursorPosition = (cursorPosition - 1).coerceAtLeast(0)
-                return
-            }
-
-            205 -> {
-                cursorPosition = (cursorPosition + 1).coerceAtMost(setting.value.length)
-                return
-            }
-
-            14 -> {
-                this.deleteFromCursor(-1)
-                return
-            }
-
-            211 -> {
-                this.deleteFromCursor(1)
-                return
-            }
-
-            199 -> {
-                cursorPosition = 0
-                return
-            }
-
-            207 -> {
-                cursorPosition = setting.value.length
-                return
-            }
-        }
+        if (keyCode == 14)
+            return delete()
+        if (keyCode == 211)
+            return deleteAll()
         if (ChatAllowedCharacters.isAllowedCharacter(typedChar))
             this.writeText(typedChar.toString())
     }
@@ -162,28 +131,27 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
             setting.value = string
             return
         }
-        var string2 = ""
+        var string2 = setting.value
         val string3 = ChatAllowedCharacters.filterAllowedCharacters(string)
-        string2 += setting.value.substring(0, cursorPosition)
         string2 += string3
-        if (cursorPosition < setting.value.length) string2 += setting.value.substring(cursorPosition)
-        cursorPosition += string3.length
-        if (string2.length > setting.maxTextSize)
-            string2 = string2.substring(0, setting.maxTextSize)
-        setting.value = string2
+        setting.value = string2.substring(0, string2.length.coerceAtMost(setting.maxTextSize))
+        chars = -1
     }
 
-    private fun deleteFromCursor(i: Int) {
+    private var lastPress = -1L
+    private fun delete() {
         if (setting.value.isEmpty()) return
-        val bl = i < 0
-        val j = if (bl) cursorPosition + i else cursorPosition
-        val k = if (bl) cursorPosition else cursorPosition + i
-        var string = ""
-        if (j >= 0)
-            string = setting.value.substring(0, j)
-        if (k < setting.value.length)
-            string += setting.value.substring(k)
-        setting.value = string
-        if (bl) cursorPosition += i
+        val currTime = System.currentTimeMillis()
+        if (currTime - lastPress < 175)
+            return deleteAll()
+        lastPress = currTime
+
+        setting.value = setting.value.substring(0, setting.value.length - 1)
+        chars = -1
+    }
+
+    private fun deleteAll() {
+        setting.value = ""
+        chars = -1
     }
 }

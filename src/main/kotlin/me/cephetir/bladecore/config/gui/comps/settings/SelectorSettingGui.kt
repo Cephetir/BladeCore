@@ -97,11 +97,11 @@ class SelectorSettingGui(private val setting: SelectorSetting) : SettingGui {
     }
 
     override fun mouseClicked(mouseX: Int, mouseY: Int, mouseButton: Int) {
-        val f = if (mouseButton == 1) -1 else 1
         if (hovered) {
-            setting.value += f
-            if (setting.value >= setting.options.size) setting.value = 0
-            else if (setting.value < 0) setting.value = setting.options.size - 1
+            var new = setting.value + if (mouseButton == 1) -1 else 1
+            if (new >= setting.options.size) new = 0
+            else if (new < 0) new = setting.options.size - 1
+            setting.value = new
         }
     }
 

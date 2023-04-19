@@ -148,7 +148,7 @@ class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
         // Title
         ConfigGui.fontRenderer32.drawString(
             currentCategory.name,
-            (x + width / 4f + 5f) * 2.0,
+            (x + width * 5f / 8f - ConfigGui.fontRenderer32.getStringWidth(currentCategory.name) / 2f / 2f) * 2.0,
             (y + 8.5f - ConfigGui.fontRenderer32.getHeight() / 2f / 2f) * 2.0,
             colorPrimary
         )
