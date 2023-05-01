@@ -4,7 +4,6 @@ import me.cephetir.bladecore.core.command.BladeCommand
 import me.cephetir.bladecore.core.config.BladeConfig
 import me.cephetir.bladecore.core.event.BladeEventBus
 import me.cephetir.bladecore.core.listeners.SkyblockListener
-import me.cephetir.bladecore.discord.DiscordIPC
 import me.cephetir.bladecore.utils.ShutdownHook
 import me.cephetir.bladecore.utils.threading.BackgroundScope
 import net.minecraft.launchwrapper.Launch
@@ -32,7 +31,6 @@ internal object BladeCore {
         BladeEventBus.subscribe(SkyblockListener, true)
 
         ShutdownHook.register {
-            DiscordIPC.disconnect()
             BackgroundScope.stop()
             BladeConfig.save()
         }

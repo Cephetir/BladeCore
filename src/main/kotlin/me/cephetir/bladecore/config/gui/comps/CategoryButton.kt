@@ -2,12 +2,12 @@ package me.cephetir.bladecore.config.gui.comps
 
 import me.cephetir.bladecore.config.gui.ConfigGui
 import me.cephetir.bladecore.config.settings.SettingManager
+import me.cephetir.bladecore.core.config.BladeConfig
 import me.cephetir.bladecore.utils.ColorUtils
 import me.cephetir.bladecore.utils.ColorUtils.withAlpha
 import me.cephetir.bladecore.utils.minecraft.render.RenderUtils
 import me.cephetir.bladecore.utils.minecraft.render.RoundUtils
 import me.cephetir.bladecore.utils.minecraft.render.shaders.ShadowUtils
-import org.lwjgl.opengl.GL11
 
 class CategoryButton(private val frame: Frame, val category: SettingManager.Category, private val i: Int) {
     private var hovered = false
@@ -63,7 +63,7 @@ class CategoryButton(private val frame: Frame, val category: SettingManager.Cate
             2f,
             frame.colorPrimary.rgb
         )
-        if (glowStr > 0.5f) ShadowUtils.shadow(
+        if (BladeConfig.guiPostProcessing.value && glowStr > 0.5f) ShadowUtils.shadow(
             glowStr,
             {
                 RoundUtils.drawRoundedRect(
@@ -115,8 +115,7 @@ class CategoryButton(private val frame: Frame, val category: SettingManager.Cate
                 wait = currTime
             }
 
-            GL11.glEnable(GL11.GL_SCISSOR_TEST)
-            RenderUtils.scissor(
+            RenderUtils.interceptScissor(
                 x1 * 2,
                 y1 * 2,
                 x1 * 2 + frame.width / 2.5f,
@@ -128,7 +127,6 @@ class CategoryButton(private val frame: Frame, val category: SettingManager.Cate
                 (y1 + ConfigGui.fontRenderer24.getHeight() / 2f / 2f - 0.5) * 2.0,
                 color2
             )
-            GL11.glDisable(GL11.GL_SCISSOR_TEST)
         }
 
         lastFrame = System.currentTimeMillis()

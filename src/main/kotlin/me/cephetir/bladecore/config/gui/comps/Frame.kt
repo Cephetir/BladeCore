@@ -2,6 +2,7 @@ package me.cephetir.bladecore.config.gui.comps
 
 import me.cephetir.bladecore.config.gui.ConfigGui
 import me.cephetir.bladecore.config.settings.SettingManager
+import me.cephetir.bladecore.core.config.BladeConfig
 import me.cephetir.bladecore.utils.ColorUtils.withAlpha
 import me.cephetir.bladecore.utils.mc
 import me.cephetir.bladecore.utils.minecraft.render.RenderUtils
@@ -39,6 +40,7 @@ class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
     private var subCategories = LinkedList<SubCategoryGui>()
     var currentCategory: SettingManager.Category
         private set
+    val searchBar = SearchBar()
 
     init {
         val cats = settingManager.getCategories()
@@ -69,7 +71,7 @@ class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
         GlStateManager.pushMatrix()
 
         // Base
-        ShadowUtils.shadow(
+        if (BladeConfig.guiPostProcessing.value) ShadowUtils.shadow(
             12f,
             {
                 RoundUtils.drawRoundedRect(
@@ -91,14 +93,15 @@ class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
                 )
             }
         )
-        BlurUtils.blurAreaRounded(
-            x * scaleFactor,
-            y * scaleFactor,
-            (x + width) * scaleFactor,
-            (y + height) * scaleFactor,
-            5f,
-            10f
-        )
+        if (BladeConfig.guiPostProcessing.value)
+            BlurUtils.blurAreaRounded(
+                x * scaleFactor,
+                y * scaleFactor,
+                (x + width) * scaleFactor,
+                (y + height) * scaleFactor,
+                5f,
+                10f
+            )
         GlStateManager.scale(scaleFactor.toDouble(), scaleFactor.toDouble(), scaleFactor.toDouble())
         RoundUtils.drawSmoothRoundedRect(x, y, x + width, y + height, 4f, colorBG.rgb)
         // Right sidebar
@@ -138,10 +141,12 @@ class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
             )
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST)
-        RenderUtils.scissor(x * 2f, y * 2f, (x + width / 4f) * 2f, (y + height) * 2f)
         lastScrollPixelsCategories = RenderUtils.animate(scrollPixelsCategories, lastScrollPixelsCategories, 0.3f)
-        for (category in categories)
+        for (category in categories) {
+            RenderUtils.scissor(x * 2f, y * 2f, (x + width / 4f) * 2f, (y + height) * 2f)
             category.draw(mouseX, mouseY, lastScrollPixelsCategories)
+        }
+        RenderUtils.clearScissors()
         stopScrollUp2 = categories.last.calcY(lastScrollPixelsCategories) < y + height
         GL11.glDisable(GL11.GL_SCISSOR_TEST)
 
@@ -168,12 +173,26 @@ class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
             colorPrimary.withAlpha(0).rgb
         )
 
+        run {
+            val x = (x + width / 4f) * 2f
+            val y = (y + 2.5f) * 2f
+            val width = (width - width / 4f) * 2f
+            searchBar.draw(x, y, width, mouseX, mouseY)
+            if (searchBar.value.isEmpty())
+                ConfigGui.fontRenderer16.drawString(
+                    "Search",
+                    x + width - 22 - ConfigGui.fontRenderer16.getStringWidth("Search") / 2.0,
+                    y + 15 - ConfigGui.fontRenderer16.getHeight() / 2.0,
+                    colorPrimary
+                )
+        }
+
         GL11.glEnable(GL11.GL_SCISSOR_TEST)
         RenderUtils.scissor((x + width / 4f) * 2f, (y + 20f) * 2f, (x + width) * 2f, (y + height - 2f) * 2f)
         lastScrollPixelsSettings = RenderUtils.animate(scrollPixelsSettings, lastScrollPixelsSettings, 0.3f)
         var h = lastScrollPixelsSettings
         for (subCategory in subCategories) {
-            h += subCategory.draw(mouseX, mouseY, h, partialTicks) + 5f
+            h += subCategory.draw(mouseX, mouseY, h, searchBar.value) + 5f
             if ((y + 20f) * 2 + h > (y + height - 2f) * 2) break
         }
         stopScrollUp = (y + 20f) * 2 + h + subCategories.last.calcH() < (y + height - 2f) * 2
@@ -188,6 +207,7 @@ class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
             category.mouseClicked(mouseX, mouseY, mouseButton)
         for (subCategory in subCategories)
             subCategory.mouseClicked(mouseX, mouseY, mouseButton)
+        searchBar.mouseClicked(mouseX, mouseY, mouseButton)
     }
 
     fun mouseReleased(mouseX: Int, mouseY: Int, state: Int) {
@@ -203,6 +223,7 @@ class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
     fun keyTyped(typedChar: Char, keyCode: Int) {
         for (subCategory in subCategories)
             subCategory.keyTyped(typedChar, keyCode)
+        searchBar.keyTyped(typedChar, keyCode)
     }
 
     fun handleMouseInput() {
@@ -214,8 +235,7 @@ class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
         if (mX > (x + width / 4f) / 2f && mY > y / 2f + 20f && mX < (x + width) / 2f && mY < y / 2f + height - 2f) {
             if (!stopScrollUp || scrollDelta > 0)
                 scrollPixelsSettings = (scrollPixelsSettings + scrollDelta * 0.2f).coerceAtMost(0f)
-        }
-        else if (mX > x / 2f && mY > y / 2f && mX < (x + width / 4f) / 2f && mY < y / 2f + height) {
+        } else if (mX > x / 2f && mY > y / 2f && mX < (x + width / 4f) / 2f && mY < y / 2f + height) {
             if (!stopScrollUp2 || scrollDelta > 0)
                 scrollPixelsCategories = (scrollPixelsCategories + scrollDelta * 0.2f).coerceAtMost(0f)
         }

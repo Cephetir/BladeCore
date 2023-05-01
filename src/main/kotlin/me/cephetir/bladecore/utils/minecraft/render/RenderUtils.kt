@@ -127,9 +127,44 @@ object RenderUtils {
         GL11.glPopAttrib()
     }
 
+    private var scissorX = -1f
+    private var scissorY = -1f
+    private var scissorX1 = -1f
+    private var scissorY1 = -1f
     fun scissor(x: Float, y: Float, x1: Float, y1: Float) {
         val scaleFactor = getScaleFactor()
         GL11.glScissor((x * scaleFactor).toInt(), (mc.displayHeight - y1 * scaleFactor).toInt(), ((x1 - x) * scaleFactor).toInt(), ((y1 - y) * scaleFactor).toInt())
+        scissorX = x
+        scissorX1 = x1
+        scissorY = y
+        scissorY1 = y1
+    }
+
+    fun interceptScissor(x: Float, y: Float, x1: Float, y1: Float) {
+        var x = x
+        var y = y
+        var x1 = x1
+        var y1 = y1
+        if (scissorX != -1f) {
+            x = x.coerceIn(scissorX, scissorX1)
+            x1 = x1.coerceIn(scissorX, scissorX1)
+            y = y.coerceIn(scissorY, scissorY1)
+            y1 = y1.coerceIn(scissorY, scissorY1)
+        }
+
+        val scaleFactor = getScaleFactor()
+        GL11.glScissor((x * scaleFactor).toInt(), (mc.displayHeight - y1 * scaleFactor).toInt(), ((x1 - x) * scaleFactor).toInt(), ((y1 - y) * scaleFactor).toInt())
+        scissorX = x
+        scissorX1 = x1
+        scissorY = y
+        scissorY1 = y1
+    }
+
+    fun clearScissors() {
+        scissorX = -1f
+        scissorY = -1f
+        scissorX1 = -1f
+        scissorY1 = -1f
     }
 
     fun getScaleFactor(): Int {

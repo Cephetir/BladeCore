@@ -27,11 +27,12 @@ class SubCategoryGui(private val frame: Frame, private val subCategory: SettingM
 
     fun calcH(): Float = (currentSettings.size + 1) * 30f
 
-    fun draw(mouseX: Int, mouseY: Int, h: Float, partialTicks: Float): Float {
+    fun draw(mouseX: Int, mouseY: Int, h: Float, search: String): Float {
         currentSettings.clear()
         for ((setting, gui) in settings)
-            if (!setting.isHidden())
+            if (!setting.isHidden() && (setting.name.contains(search, true) || setting.description?.contains(search, true) == true))
                 currentSettings.add(gui)
+        if (currentSettings.isEmpty()) return 0f
 
         val x = (frame.x + frame.width / 4f) * 2f
         val y = (frame.y + 20f) * 2f + h
