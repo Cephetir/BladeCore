@@ -8,7 +8,7 @@ import net.minecraft.client.gui.GuiScreen
 import net.minecraft.util.ChatAllowedCharacters
 import java.awt.Color
 
-class SearchBar {
+class SearchBar(private val frame: Frame) {
     private val colorPrimary = Color(170, 0, 255)
     private val colorText = Color(191, 189, 193)
     private val colorTextLight = Color(229, 229, 229)
@@ -20,7 +20,7 @@ class SearchBar {
     private var chars = -1
 
     fun draw(x: Float, y: Float, width: Float, mouseX: Int, mouseY: Int) {
-        val hx = x + width - 3 - (10 + ConfigGui.fontRenderer16.getStringWidth(value)).coerceAtLeast(40)
+        val hx = x + width - 3 - (10 + ConfigGui.fontRenderer16.getStringWidth(value)).coerceIn(60, 120)
         val hx1 = x + width - 3
         val hy = y + 6.5f
         val hy1 = y + 23.5f
@@ -37,7 +37,7 @@ class SearchBar {
             )
         }
 
-        val w = (10 + ConfigGui.fontRenderer16.getStringWidth(value)).coerceIn(40, 120)
+        val w = (10 + ConfigGui.fontRenderer16.getStringWidth(value)).coerceIn(60, 120)
         RoundUtils.drawSmoothRoundedRect(
             x + width - 3 - w,
             y + 6.5f,
@@ -56,8 +56,8 @@ class SearchBar {
             color2.rgb
         )
 
-        val scroll = w <= ConfigGui.fontRenderer16.getStringWidth(value) + 4
-        val text = if (!scroll) value
+        val text = if (value.isEmpty()) "Search"
+        else if (w > ConfigGui.fontRenderer16.getStringWidth(value) + 4) value
         else {
             if (chars == -1) {
                 chars = 5
@@ -81,6 +81,8 @@ class SearchBar {
 
     fun keyTyped(typedChar: Char, keyCode: Int) {
         if (!focused) return
+        if (frame.currentCategory != null)
+            frame.setCurrCategory(null)
 
         if (GuiScreen.isKeyComboCtrlV(keyCode)) {
             writeText(GuiScreen.getClipboardString())

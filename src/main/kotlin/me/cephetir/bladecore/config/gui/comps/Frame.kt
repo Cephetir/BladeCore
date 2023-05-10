@@ -38,23 +38,24 @@ class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
 
     private var categories = LinkedList<CategoryButton>()
     private var subCategories = LinkedList<SubCategoryGui>()
-    var currentCategory: SettingManager.Category
+    var currentCategory: SettingManager.Category? = null
         private set
-    val searchBar = SearchBar()
+    val searchBar = SearchBar(this)
 
     init {
         val cats = settingManager.getCategories()
         for ((i, category) in cats.withIndex())
             categories.add(CategoryButton(this, category, i))
-        currentCategory = categories[0].category
-        setCurrCategory(categories[0].category)
+        setCurrCategory(null)
     }
 
-    fun setCurrCategory(value: SettingManager.Category) {
+    fun setCurrCategory(value: SettingManager.Category?) {
         currentCategory = value
 
         subCategories.clear()
-        value.subCategories.forEach { subCategory ->
+        if (value != null) value.subCategories.forEach { subCategory ->
+            subCategories.add(SubCategoryGui(this, subCategory))
+        } else for (category in categories) category.category.subCategories.forEach { subCategory ->
             subCategories.add(SubCategoryGui(this, subCategory))
         }
         scrollPixelsSettings = 0f
@@ -151,9 +152,9 @@ class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
         GL11.glDisable(GL11.GL_SCISSOR_TEST)
 
         // Title
-        ConfigGui.fontRenderer32.drawString(
-            currentCategory.name,
-            (x + width * 5f / 8f - ConfigGui.fontRenderer32.getStringWidth(currentCategory.name) / 2f / 2f) * 2.0,
+        if (currentCategory != null) ConfigGui.fontRenderer32.drawString(
+            currentCategory!!.name,
+            (x + width * 5f / 8f - ConfigGui.fontRenderer32.getStringWidth(currentCategory!!.name) / 2f / 2f) * 2.0,
             (y + 8.5f - ConfigGui.fontRenderer32.getHeight() / 2f / 2f) * 2.0,
             colorPrimary
         )
@@ -178,13 +179,6 @@ class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
             val y = (y + 2.5f) * 2f
             val width = (width - width / 4f) * 2f
             searchBar.draw(x, y, width, mouseX, mouseY)
-            if (searchBar.value.isEmpty())
-                ConfigGui.fontRenderer16.drawString(
-                    "Search",
-                    x + width - 22 - ConfigGui.fontRenderer16.getStringWidth("Search") / 2.0,
-                    y + 15 - ConfigGui.fontRenderer16.getHeight() / 2.0,
-                    colorPrimary
-                )
         }
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST)

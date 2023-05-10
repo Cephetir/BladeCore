@@ -4,21 +4,13 @@ import me.cephetir.bladecore.core.event.BladeEventBus;
 import me.cephetir.bladecore.core.event.events.RunGameLoopEvent;
 import me.cephetir.bladecore.utils.ShutdownHook;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.Session;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
-
-    @Shadow
-    @Final
-    private Session session;
-
     @Inject(method = "shutdown", at = @At("HEAD"))
     private void shutdown(CallbackInfo ci) {
         ShutdownHook.INSTANCE.execute();
@@ -48,19 +40,4 @@ public class MinecraftMixin {
     public void runGameLoopEnd(CallbackInfo ci) {
         BladeEventBus.INSTANCE.post(new RunGameLoopEvent.End());
     }
-
-    /*@Inject(method = "displayCrashReport", at = @At("HEAD"))
-    private void displayCrashReport(CrashReport crashReportIn, CallbackInfo ci) {
-        String description = crashReportIn.getDescription();
-        String stackTrace = crashReportIn.getCauseStackTraceOrString();
-        String full = description + "\n" + stackTrace;
-
-        JsonObject obj = new JsonObject();
-        obj.addProperty("uuid", this.session.getProfile().getId().toString());
-        obj.addProperty("reason", "crashReport");
-        obj.addProperty("crash", full);
-
-        String encrypted = Base64.getEncoder().encodeToString(obj.toString().getBytes(StandardCharsets.UTF_8));
-        //Metrics.INSTANCE.send(encrypted);
-    }*/
 }

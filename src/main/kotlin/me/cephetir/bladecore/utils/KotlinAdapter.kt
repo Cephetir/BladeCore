@@ -17,10 +17,10 @@ class KotlinAdapter : ILanguageAdapter {
     override fun getNewInstance(
         container: FMLModContainer,
         objectClass: Class<*>,
-        classLoader: ClassLoader,
+        classLoader: java.lang.ClassLoader,
         factoryMarkedAnnotation: Method?
     ): Any = objectClass.kotlin.objectInstance ?: objectClass.newInstance()
 
 
-    override fun setInternalProxies(mod: ModContainer?, side: Side?, loader: ClassLoader?) { }
+    override fun setInternalProxies(mod: ModContainer?, side: Side?, loader: java.lang.ClassLoader?) { }
 }
