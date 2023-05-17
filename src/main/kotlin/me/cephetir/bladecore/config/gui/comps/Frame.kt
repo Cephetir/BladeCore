@@ -186,10 +186,13 @@ class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
         lastScrollPixelsSettings = RenderUtils.animate(scrollPixelsSettings, lastScrollPixelsSettings, 0.3f)
         var h = lastScrollPixelsSettings
         for (subCategory in subCategories) {
-            h += subCategory.draw(mouseX, mouseY, h, searchBar.value) + 5f
-            if ((y + 20f) * 2 + h > (y + height - 2f) * 2) break
+            val add = subCategory.draw(mouseX, mouseY, h, searchBar.value)
+            if (add != 0f) {
+                h += add + 5f
+                if ((y + 20f) * 2 + h > (y + height - 2f) * 2) break
+            }
         }
-        stopScrollUp = (y + 20f) * 2 + h + subCategories.last.calcH() < (y + height - 2f) * 2
+        stopScrollUp = (y + 20f) * 2 + h < (y + height - 2f) * 2
         GL11.glDisable(GL11.GL_SCISSOR_TEST)
 
         GlStateManager.scale(2.0, 2.0, 2.0)
