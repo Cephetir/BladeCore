@@ -1,5 +1,6 @@
 package me.cephetir.bladecore.utils.minecraft.render.shaders
 
+import me.cephetir.bladecore.BladeCore
 import me.cephetir.bladecore.mixins.accessors.IMixinShaderGroup
 import me.cephetir.bladecore.utils.mc
 import me.cephetir.bladecore.utils.mcAccessor
@@ -13,9 +14,9 @@ import net.minecraft.client.shader.ShaderGroup
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE
-import java.io.IOException
 
 object ShadowUtils {
+    private var forceDisable = false
     private var initFramebuffer: Framebuffer? = null
     private var frameBuffer: Framebuffer? = null
     private var resultBuffer: Framebuffer? = null
@@ -27,36 +28,41 @@ object ShadowUtils {
 
     private val blurDirectory = ResourceLocation("shaders/shadow.json")
 
-    @Throws(IOException::class)
     private fun initShaderIfRequired(sc: ScaledResolution, strength: Float) {
-        val width = sc.scaledWidth
-        val height = sc.scaledHeight
-        val factor = sc.scaleFactor
-        if (lastWidth != width || lastHeight != height
-            || initFramebuffer == null || frameBuffer == null || shaderGroup == null) {
-            initFramebuffer = Framebuffer(width * factor, height * factor, true)
-            initFramebuffer!!.setFramebufferColor(0F, 0F, 0F, 0F)
-            initFramebuffer!!.setFramebufferFilter(GL_LINEAR)
-            shaderGroup = ShaderGroup(mc.textureManager, mc.resourceManager, initFramebuffer!!, blurDirectory)
-            shaderGroup!!.createBindFramebuffers(width * factor, height * factor)
-            frameBuffer = (shaderGroup!! as IMixinShaderGroup).mainFramebuffer
-            resultBuffer = shaderGroup!!.getFramebufferRaw("braindead")
+        try {
+            val width = sc.scaledWidth
+            val height = sc.scaledHeight
+            val factor = sc.scaleFactor
+            if (lastWidth != width || lastHeight != height
+                || initFramebuffer == null || frameBuffer == null || shaderGroup == null
+            ) {
+                initFramebuffer = Framebuffer(width * factor, height * factor, true)
+                initFramebuffer!!.setFramebufferColor(0F, 0F, 0F, 0F)
+                initFramebuffer!!.setFramebufferFilter(GL_LINEAR)
+                shaderGroup = ShaderGroup(mc.textureManager, mc.resourceManager, initFramebuffer!!, blurDirectory)
+                shaderGroup!!.createBindFramebuffers(width * factor, height * factor)
+                frameBuffer = (shaderGroup!! as IMixinShaderGroup).mainFramebuffer
+                resultBuffer = shaderGroup!!.getFramebufferRaw("braindead")
 
-            lastWidth = width
-            lastHeight = height
-            lastStrength = strength
-            for (i in 0..1)
-                (shaderGroup!! as IMixinShaderGroup).listShaders[i].shaderManager.getShaderUniform("Radius")?.set(strength)
-        }
-        if (lastStrength != strength) {
-            lastStrength = strength
-            for (i in 0..1)
-                (shaderGroup!! as IMixinShaderGroup).listShaders[i].shaderManager.getShaderUniform("Radius")?.set(strength)
+                lastWidth = width
+                lastHeight = height
+                lastStrength = strength
+                for (i in 0..1)
+                    (shaderGroup!! as IMixinShaderGroup).listShaders[i].shaderManager.getShaderUniform("Radius")?.set(strength)
+            }
+            if (lastStrength != strength) {
+                lastStrength = strength
+                for (i in 0..1)
+                    (shaderGroup!! as IMixinShaderGroup).listShaders[i].shaderManager.getShaderUniform("Radius")?.set(strength)
+            }
+        } catch (ex: Exception) {
+            BladeCore.logger.error("Failed to init shadow shader!", ex)
+            forceDisable = true
         }
     }
 
     fun shadow(strength: Float, drawMethod: (() -> Unit), cutMethod: (() -> Unit)) {
-        if (!OpenGlHelper.isFramebufferEnabled()) return
+        if (!OpenGlHelper.isFramebufferEnabled() || forceDisable) return
 
         val sc = ScaledResolution(mc)
         val width = sc.scaledWidth

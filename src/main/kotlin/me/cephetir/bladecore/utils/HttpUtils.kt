@@ -3,6 +3,7 @@ package me.cephetir.bladecore.utils
 import io.netty.handler.codec.http.HttpMethod
 import me.cephetir.bladecore.BladeCore
 import org.apache.http.HttpResponse
+import org.apache.http.HttpStatus
 import org.apache.http.NameValuePair
 import org.apache.http.client.ClientProtocolException
 import org.apache.http.client.config.RequestConfig
@@ -111,7 +112,15 @@ object HttpUtils {
             if (httpResponse != null) {
                 if (httpResponse.statusLine.statusCode == 200) {
                     return EntityUtils.toString(httpResponse.entity)
-                } else BladeCore.logger.error("Failed request with status code ${httpResponse.statusLine?.statusCode}")
+                } else {
+                    val status = httpResponse.statusLine.statusCode
+                    BladeCore.logger.error("Failed request with status code ${httpResponse.statusLine.statusCode}")
+                    if (status >= HttpStatus.SC_OK && status != HttpStatus.SC_NO_CONTENT && status != HttpStatus.SC_NOT_MODIFIED && status != HttpStatus.SC_RESET_CONTENT) {
+                        try {
+                            return EntityUtils.toString(httpResponse.entity)
+                        } catch (_: Exception) {}
+                    }
+                }
             }
         } catch (e: ClientProtocolException) {
             e.printStackTrace()

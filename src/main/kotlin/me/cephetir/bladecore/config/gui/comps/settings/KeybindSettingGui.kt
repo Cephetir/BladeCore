@@ -24,10 +24,10 @@ class KeybindSettingGui(private val setting: KeybindSetting) : SettingGui {
             else if (setting.value < 0) "MOUSE_" + Mouse.getButtonName(-setting.value)
             else Keyboard.getKeyName(setting.value)
         }
-        val hx = x + width - 4 - ConfigGui.fontRenderer16.getStringWidth(keyName).coerceAtLeast(30)
+        val hx = x + width - 7 - ConfigGui.fontRenderer16.getStringWidth(keyName).coerceAtLeast(30)
         val hx1 = x + width - 3
         val hy = y + 6.5f
-        val hy1 = y + 13.5f
+        val hy1 = y + 23.5f
         hovered = hx < mouseX && hx1 > mouseX && hy < mouseY && hy1 > mouseY
 
         textColor = RenderUtils.animate(if (hovered || setting.isKeyDown()) 1f else 0f, textColor, 0.2f)
