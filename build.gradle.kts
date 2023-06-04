@@ -39,8 +39,8 @@ loom {
     }
 }
 
-val include: Configuration by configurations.creating {
-    configurations.api.get().extendsFrom(this)
+val shade: Configuration by configurations.creating {
+    configurations.implementation.get().extendsFrom(this)
 }
 
 repositories {
@@ -87,6 +87,11 @@ dependencies {
     compileOnly(files("libs/preview_OptiFine_1.8.9_HD_U_M6_pre2.jar"))
 }
 
+fun DependencyHandlerScope.include(dependency: Any) {
+    api(dependency)
+    shade(dependency)
+}
+
 sourceSets {
     main {
         output.setResourcesDir(file("${buildDir}/classes/kotlin/main"))
@@ -129,7 +134,7 @@ tasks {
     shadowJar {
         archiveClassifier.set("dev")
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        configurations = listOf(include)
+        configurations = listOf(shade)
 
         //relocate("com.jagrosh.discordipc", "me.cephetir.bladecore.discord.discordipc")
 
