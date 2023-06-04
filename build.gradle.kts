@@ -1,7 +1,8 @@
 import dev.architectury.pack200.java.Pack200Adapter
+import net.fabricmc.loom.task.RemapSourcesJarTask
 
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.8.21"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("gg.essential.loom") version "0.10.0.+"
     id("io.github.juuxel.loom-quiltflower-mini") version "7d04f32023"
@@ -114,6 +115,7 @@ tasks {
     }
 
     jar {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         manifest {
             attributes(
                 mapOf(
@@ -125,14 +127,15 @@ tasks {
             )
         }
         dependsOn(shadowJar)
-        enabled = false
+        archiveClassifier.set("")
+        //enabled = false
     }
     remapJar {
-        archiveClassifier.set("")
+        archiveClassifier.set("full")
         input.set(shadowJar.get().archiveFile)
     }
     shadowJar {
-        archiveClassifier.set("dev")
+        archiveClassifier.set("full-dev")
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         configurations = listOf(shade)
 
@@ -156,6 +159,9 @@ tasks {
     }
     named<Jar>("sourcesJar") {
         archiveClassifier.set("sources")
+        doFirst {
+            archiveClassifier.set("sources")
+        }
         exclude("me/cephetir/bladecore/BladeCore**")
         exclude("me/cephetir/bladecore/forge/**")
         exclude("me/cephetir/bladecore/mixins**")
@@ -186,6 +192,9 @@ tasks {
             )
         )
     }
+    withType<RemapSourcesJarTask> {
+        enabled = false
+    }
 }
 
 kotlin {
@@ -201,7 +210,6 @@ configure<PublishingExtension> {
             version = project.version.toString()
 
             from(components.getByName("java"))
-            artifact(tasks["remapJar"])
         }
     }
 
