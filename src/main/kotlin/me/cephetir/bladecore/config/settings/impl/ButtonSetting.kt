@@ -17,4 +17,6 @@ class ButtonSetting(
         if (category.isEmpty())
             throw IllegalArgumentException("Category cannot be empty!")
     }
+
+    override fun validate() {}
 }

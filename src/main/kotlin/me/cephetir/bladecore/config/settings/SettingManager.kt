@@ -155,6 +155,7 @@ class SettingManager(private val cfgFile: File, val name: String = "", val categ
                         is SelectorSetting -> it.value = value.asString.toIntOrNull() ?: it.value
                         is TextSetting -> it.value = value.asString ?: it.value
                     }
+                    it.validate()
                 }
             }
         }.onFailure {

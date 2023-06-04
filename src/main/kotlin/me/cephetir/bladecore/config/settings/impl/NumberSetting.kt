@@ -1,6 +1,7 @@
 package me.cephetir.bladecore.config.settings.impl
 
 import me.cephetir.bladecore.config.settings.AbstractSetting
+import me.cephetir.bladecore.utils.math.MathUtils.round
 
 class NumberSetting(
     override val name: String,
@@ -24,5 +25,9 @@ class NumberSetting(
             value = min
         if (min >= max)
             throw IllegalArgumentException("Minimum cannot be lower or equal to maximum!")
+    }
+
+    override fun validate() {
+        value = value.round(places).coerceIn(min, max)
     }
 }

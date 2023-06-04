@@ -16,4 +16,5 @@ abstract class AbstractSetting<T>(
         }
 
     abstract fun checkValues()
+    abstract fun validate()
 }

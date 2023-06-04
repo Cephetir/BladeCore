@@ -20,6 +20,8 @@ class DecoratorSetting(
             throw IllegalArgumentException("Category cannot be empty!")
     }
 
+    override fun validate() {}
+
     enum class State {
         INFO,
         WARNING,

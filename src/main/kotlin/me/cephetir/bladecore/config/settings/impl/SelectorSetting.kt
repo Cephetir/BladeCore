@@ -23,4 +23,8 @@ class SelectorSetting(
         if (value < 0 || value >= options.size)
             value = 0
     }
+
+    override fun validate() {
+        value = value.coerceIn(0, options.size - 1)
+    }
 }

@@ -23,6 +23,10 @@ class KeybindSetting(
             throw IllegalArgumentException("Category cannot be empty!")
     }
 
+    override fun validate() {
+        value = value.coerceIn(-Mouse.getButtonCount(), 256)
+    }
+
     /*
      *  Warning: Handle in-gui yourself!
      */
