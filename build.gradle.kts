@@ -10,7 +10,7 @@ plugins {
     `maven-publish`
 }
 
-version = "0.0.2-c"
+version = "0.0.2-d"
 group = "me.cephetir"
 
 base {
@@ -40,7 +40,7 @@ loom {
 }
 
 val include: Configuration by configurations.creating {
-    configurations.implementation.get().extendsFrom(this)
+    configurations.api.get().extendsFrom(this)
 }
 
 repositories {
