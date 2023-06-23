@@ -195,6 +195,7 @@ enum class SkyblockIsland(val formattedName: String, val mode: String) {
     DarkAuction("Dark Auction", "dark_auction"),
     JerryWorkshop("Jerry's Workshop", "winter"),
     Garden("The Garden", "garden"),
+    Rift("The Rift", "rift"),
     Instanced("Instanced", "instanced"),
     Unknown("Unknown", "");
 

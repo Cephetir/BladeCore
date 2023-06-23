@@ -70,7 +70,7 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
             x + width - 3,
             y + 23.5f,
             8f,
-            colorPrimary.rgb
+            if (focused) Color.green.rgb else colorPrimary.rgb
         )
 
         RoundUtils.drawSmoothRoundedRect(
