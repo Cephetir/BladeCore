@@ -2,7 +2,7 @@ import dev.architectury.pack200.java.Pack200Adapter
 import net.fabricmc.loom.task.RemapSourcesJarTask
 
 plugins {
-    kotlin("jvm") version "1.8.22"
+    kotlin("jvm") version "1.9.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("gg.essential.loom") version "0.10.0.+"
     id("io.github.juuxel.loom-quiltflower-mini") version "7d04f32023"
@@ -11,7 +11,7 @@ plugins {
     `maven-publish`
 }
 
-version = "0.0.2-e"
+version = "0.0.2-f"
 group = "me.cephetir"
 
 base {
@@ -57,7 +57,7 @@ dependencies {
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
     // Essential
-    val essential = "gg.essential:essential-1.8.9-forge:13048+g5515d74aa"
+    val essential = "gg.essential:essential-1.8.9-forge:13609+gfa2884c23"
     api(essential)
     compileOnly(essential)
     runtimeOnly("gg.essential:loader-launchwrapper:1.1.3") {
@@ -68,14 +68,15 @@ dependencies {
     include(platform(kotlin("bom")))
     include(kotlin("stdlib-jdk8"))
     include(kotlin("reflect"))
-    include("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.5.1")
-    include("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+    include("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0-RC")
+    include("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
     // Discord RPC
     include("com.github.cbyrneee:DiscordIPC:e18542f6")
 
     // Mixins
-    include("org.spongepowered:mixin:0.8.5")
+    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
+    api("org.spongepowered:mixin:0.8.5")
 
     // WebSocket
     include("org.java-websocket:Java-WebSocket:1.5.3")

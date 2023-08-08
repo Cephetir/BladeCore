@@ -6,6 +6,7 @@ import me.cephetir.bladecore.utils.minecraft.render.RenderUtils
 import me.cephetir.bladecore.utils.minecraft.render.RoundUtils
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.util.ChatAllowedCharacters
+import org.lwjgl.input.Keyboard
 import java.awt.Color
 
 class SearchBar(private val frame: Frame) {
@@ -14,7 +15,7 @@ class SearchBar(private val frame: Frame) {
     private val colorTextLight = Color(229, 229, 229)
 
     var value = ""
-    private var focused = false
+    private var focused = true
     private var hovered = false
     private var textColor = 0f
     private var chars = -1
@@ -80,6 +81,10 @@ class SearchBar(private val frame: Frame) {
     }
 
     fun keyTyped(typedChar: Char, keyCode: Int) {
+        if (GuiScreen.isCtrlKeyDown() && keyCode == Keyboard.KEY_F) {
+            focused = true
+            return
+        }
         if (!focused) return
         if (frame.currentCategory != null)
             frame.setCurrCategory(null)

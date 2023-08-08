@@ -19,7 +19,6 @@ package me.cephetir.bladecore.core.listeners
 
 import com.google.gson.Gson
 import gg.essential.api.EssentialAPI
-import me.cephetir.bladecore.core.event.BladeEventBus
 import me.cephetir.bladecore.core.event.events.PacketEvent
 import me.cephetir.bladecore.core.event.events.SendChatMessageEvent
 import me.cephetir.bladecore.core.event.listener.listener
@@ -93,8 +92,6 @@ object SkyblockListener {
             if (EssentialAPI.getMinecraftUtil().isHypixel() && it.message.startsWith("/locraw"))
                 manualLastLocRaw = System.currentTimeMillis()
         }
-
-        BladeEventBus.subscribe(this)
     }
 
     @SubscribeEvent(receiveCanceled = true)

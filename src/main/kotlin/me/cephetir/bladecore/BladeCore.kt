@@ -15,7 +15,7 @@ import java.io.File
 internal object BladeCore {
     const val MODID = "bladecore"
     const val MOD_NAME = "BladeCore"
-    const val VERSION = "0.0.2-e"
+    const val VERSION = "0.0.2-f"
 
     val logger: Logger = LogManager.getLogger("BladeCore")
     val mainDir = File(Launch.minecraftHome, "bladecore")

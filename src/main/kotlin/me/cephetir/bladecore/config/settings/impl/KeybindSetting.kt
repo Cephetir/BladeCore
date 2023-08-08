@@ -37,9 +37,6 @@ class KeybindSetting(
         value = value.coerceIn(-Mouse.getButtonCount(), 256)
     }
 
-    /*
-     *  Warning: Handle in-gui yourself!
-     */
     fun isKeyDown(): Boolean {
         if (mc.currentScreen is GuiChat || mc.currentScreen is GuiEditSign) return false
         return if (value == 0) false
