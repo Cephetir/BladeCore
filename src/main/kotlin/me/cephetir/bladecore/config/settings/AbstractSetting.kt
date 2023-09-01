@@ -1,5 +1,7 @@
 package me.cephetir.bladecore.config.settings
 
+import me.cephetir.bladecore.BladeCore
+
 abstract class AbstractSetting<T>(
     open val name: String,
     open val description: String? = null,
@@ -12,7 +14,11 @@ abstract class AbstractSetting<T>(
     open var value: T = value
         set(value) {
             field = value
-            listener(value)
+            runCatching {
+                listener(value)
+            }.onFailure {
+                BladeCore.logger.error("Failed to run listener for $category/$subCategory/$name", it)
+            }
         }
 
     abstract fun checkValues()

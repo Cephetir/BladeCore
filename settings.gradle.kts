@@ -15,8 +15,6 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             when (requested.id.id) {
-                "net.minecraftforge.gradle.forge" -> useModule("com.github.asbyth:ForgeGradle:${requested.version}")
-                "io.github.juuxel.loom-quiltflower-mini" -> useModule("com.github.Cephetir:loom-quiltflower-mini:${requested.version}")
             }
         }
     }

@@ -3,15 +3,15 @@ import net.fabricmc.loom.task.RemapSourcesJarTask
 
 plugins {
     kotlin("jvm") version "1.9.0"
+    kotlin("plugin.serialization") version "1.9.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("gg.essential.loom") version "0.10.0.+"
-    id("io.github.juuxel.loom-quiltflower-mini") version "7d04f32023"
     id("dev.architectury.architectury-pack200") version "0.1.3"
     java
     `maven-publish`
 }
 
-version = "0.0.2-f"
+version = "0.0.2-g"
 group = "me.cephetir"
 
 base {
@@ -68,11 +68,11 @@ dependencies {
     include(platform(kotlin("bom")))
     include(kotlin("stdlib-jdk8"))
     include(kotlin("reflect"))
-    include("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0-RC")
-    include("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    include("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.0-RC")
+    include("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
 
     // Discord RPC
-    include("com.github.cbyrneee:DiscordIPC:e18542f6")
+    include("com.github.jagrosh:DiscordIPC:a8d6631")
 
     // Mixins
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
@@ -92,7 +92,7 @@ fun DependencyHandlerScope.include(dependency: Any) {
 
 sourceSets {
     main {
-        output.setResourcesDir(file("${buildDir}/classes/kotlin/main"))
+        output.resourcesDir = file("${buildDir}/classes/kotlin/main")
     }
 }
 

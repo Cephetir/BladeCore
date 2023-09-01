@@ -58,6 +58,11 @@ object SkyblockListener {
     private var manualLastLocRaw = -1L
     private var joinedWorld: Long = -1
     var locraw: LocrawObject? = null
+        set(value) {
+            if (value != null) lastLocraw = value
+            field = value
+        }
+    var lastLocraw: LocrawObject? = null
     private val junkRegex = Regex("[^\u0020-\u0127û]")
 
     private val gson = Gson()
@@ -133,7 +138,7 @@ object SkyblockListener {
 
         try {
             val lines = ScoreboardUtils.sidebarLines.map { it.stripColor().keepScoreboardCharacters() }
-            if (lines.size < 3) return
+            if (lines.size < 4) return
 
             //§707/14/20
             date = lines[2].trim()

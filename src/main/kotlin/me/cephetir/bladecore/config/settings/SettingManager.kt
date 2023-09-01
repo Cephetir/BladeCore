@@ -134,9 +134,9 @@ class SettingManager(private val cfgFile: File, val name: String = "", val categ
                 it.write(gson.toJson(json))
             }
         }.onFailure {
-            BladeCore.logger.error("Failed to save config ${cfgFile.name}!", it)
+            BladeCore.logger.error("Failed to save config $name/${cfgFile.name}!", it)
         }.onSuccess {
-            BladeCore.logger.info("Successfully saved config ${cfgFile.name}!")
+            BladeCore.logger.info("Successfully saved config $name/${cfgFile.name}!")
         }
     }
 
@@ -159,10 +159,10 @@ class SettingManager(private val cfgFile: File, val name: String = "", val categ
                 }
             }
         }.onFailure {
-            BladeCore.logger.error("Failed to load config ${cfgFile.name}!", it)
+            BladeCore.logger.error("Failed to load config $name/${cfgFile.name}!", it)
             saveConfig()
         }.onSuccess {
-            BladeCore.logger.info("Successfully loaded config ${cfgFile.name}!")
+            BladeCore.logger.info("Successfully loaded config $name/${cfgFile.name}!")
         }
     }
 
