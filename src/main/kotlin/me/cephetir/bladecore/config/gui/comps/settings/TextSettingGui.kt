@@ -63,7 +63,7 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
             )
         }
 
-        val w = (10 + ConfigGui.fontRenderer16.getStringWidth(setting.value)).coerceIn(30, 120)
+        val w = (10 + ConfigGui.fontRenderer16.getStringWidth(setting.value)).coerceIn(50, 120)
         RoundUtils.drawSmoothRoundedRect(
             x + width - 3 - w,
             y + 6.5f,

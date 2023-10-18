@@ -2,9 +2,9 @@ import dev.architectury.pack200.java.Pack200Adapter
 import net.fabricmc.loom.task.RemapSourcesJarTask
 
 plugins {
-    kotlin("jvm") version "1.9.0"
-    kotlin("plugin.serialization") version "1.9.0"
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    kotlin("jvm") version "1.9.10"
+    kotlin("plugin.serialization") version "1.9.10"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     id("gg.essential.loom") version "0.10.0.+"
     id("dev.architectury.architectury-pack200") version "0.1.3"
     java
@@ -57,7 +57,7 @@ dependencies {
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
     // Essential
-    val essential = "gg.essential:essential-1.8.9-forge:13609+gfa2884c23"
+    val essential = "gg.essential:essential-1.8.9-forge:14137+g9a1152893"
     api(essential)
     compileOnly(essential)
     runtimeOnly("gg.essential:loader-launchwrapper:1.1.3") {
@@ -68,7 +68,7 @@ dependencies {
     include(platform(kotlin("bom")))
     include(kotlin("stdlib-jdk8"))
     include(kotlin("reflect"))
-    include("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.0-RC")
+    include("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.0")
     include("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
 
     // Discord RPC
@@ -92,7 +92,7 @@ fun DependencyHandlerScope.include(dependency: Any) {
 
 sourceSets {
     main {
-        output.resourcesDir = file("${buildDir}/classes/kotlin/main")
+        output.resourcesDir = file("${layout.buildDirectory.asFile.get()}/classes/kotlin/main")
     }
 }
 
