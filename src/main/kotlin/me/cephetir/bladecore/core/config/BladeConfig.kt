@@ -15,8 +15,8 @@ object BladeConfig {
         sm.loadConfig()
         ConfigGui.Companion
     }
-    fun save() { sm.saveConfig() }
-    fun gui() { sm.openGui() }
+    fun save() = sm.saveConfig()
+    fun gui() = sm.openGui()
 
     val uwuify = sm.booleanSetting("UwUify") {
         category = "UwU"
@@ -35,5 +35,29 @@ object BladeConfig {
         category = "GUI"
         description = "Controls gui blur and shadow"
         value = true
+    }
+
+    val primaryColorR = sm.numberSetting("Primary Color Red") {
+        category = "GUI"
+        subCategory = "Color"
+        min = 0.0
+        max = 255.0
+        value = 170.0
+    }
+
+    val primaryColorG = sm.numberSetting("Primary Color Green") {
+        category = "GUI"
+        subCategory = "Color"
+        min = 0.0
+        max = 255.0
+        value = 0.0
+    }
+
+    val primaryColorB = sm.numberSetting("Primary Color Blue") {
+        category = "GUI"
+        subCategory = "Color"
+        min = 0.0
+        max = 255.0
+        value = 255.0
     }
 }

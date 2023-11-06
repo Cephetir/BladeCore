@@ -1,6 +1,7 @@
 package me.cephetir.bladecore.config.gui.comps.settings
 
 import me.cephetir.bladecore.config.gui.ConfigGui
+import me.cephetir.bladecore.config.gui.comps.Frame
 import me.cephetir.bladecore.config.settings.impl.NumberSetting
 import me.cephetir.bladecore.utils.ColorUtils
 import me.cephetir.bladecore.utils.math.MathUtils.round
@@ -9,7 +10,6 @@ import me.cephetir.bladecore.utils.minecraft.render.RoundUtils
 import java.awt.Color
 
 class NumberSettingGui(private val setting: NumberSetting) : SettingGui {
-    private val colorPrimary = Color(170, 0, 255)
     private val colorText = Color(191, 189, 193)
     private val colorTextLight = Color(229, 229, 229)
     private val colorBG = Color(0, 0, 0, 175)
@@ -64,7 +64,7 @@ class NumberSettingGui(private val setting: NumberSetting) : SettingGui {
                 setting.description!!,
                 mouseX + 7.0,
                 mouseY.toDouble(),
-                colorPrimary
+                Frame.colorPrimary
             )
         }
 
@@ -80,7 +80,7 @@ class NumberSettingGui(private val setting: NumberSetting) : SettingGui {
             x + width / 2 + width / 5 + pixelsProgess,
             y + 15f,
             3f + hoverProgress * 2f,
-            colorPrimary
+            Frame.colorPrimary
         )
 
         ConfigGui.fontRenderer16.drawString(

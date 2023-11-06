@@ -30,16 +30,16 @@ class CategoryButton(private val frame: Frame, val category: SettingManager.Cate
         current = frame.currentCategory == category
 
         val color1 =
-            if (hovered || current) frame.colorBGGlow.withAlpha(255)
-            else frame.colorBG.withAlpha(255)
+            if (hovered || current) Frame.colorBGGlow.withAlpha(255)
+            else Frame.colorBG.withAlpha(255)
 
         textColor = RenderUtils.animate(if (hovered || current) 1f else 0f, textColor, 0.2f)
         val color2 = when {
-            textColor < 0.1f -> frame.colorSecondary
-            textColor > 0.9f -> frame.colorPrimary
+            textColor < 0.1f -> Frame.colorSecondary
+            textColor > 0.9f -> Frame.colorPrimary
             else -> ColorUtils.blendColors(
                 floatArrayOf(0f, 1f),
-                arrayOf(frame.colorSecondary, frame.colorPrimary),
+                arrayOf(Frame.colorSecondary, Frame.colorPrimary),
                 textColor
             )
         }
@@ -61,7 +61,7 @@ class CategoryButton(private val frame: Frame, val category: SettingManager.Cate
             (y1 + ConfigGui.fontRenderer24.getHeight()) * 2f,
             5f,
             2f,
-            frame.colorPrimary.rgb
+            Frame.colorPrimary.rgb
         )
         if (BladeConfig.guiPostProcessing.value && glowStr > 0.5f) ShadowUtils.shadow(
             glowStr,
@@ -72,7 +72,7 @@ class CategoryButton(private val frame: Frame, val category: SettingManager.Cate
                     x1 * 2 + frame.width / 2.5f,
                     (y1 + ConfigGui.fontRenderer24.getHeight()) * 2f,
                     5f,
-                    frame.colorPrimary.rgb
+                    Frame.colorPrimary.rgb
                 )
             },
             {

@@ -10,8 +10,6 @@ import org.lwjgl.input.Keyboard
 import java.awt.Color
 
 class SearchBar(private val frame: Frame) {
-    private val colorPrimary = Color(170, 0, 255)
-    private val colorText = Color(191, 189, 193)
     private val colorTextLight = Color(229, 229, 229)
 
     var value = ""
@@ -29,11 +27,11 @@ class SearchBar(private val frame: Frame) {
 
         textColor = RenderUtils.animate(if (hovered || focused) 1f else 0f, textColor, 0.2f)
         val color2 = when {
-            textColor < 0.1f -> colorText
+            textColor < 0.1f -> Frame.colorSecondary
             textColor > 0.9f -> colorTextLight
             else -> ColorUtils.blendColors(
                 floatArrayOf(0f, 1f),
-                arrayOf(colorText, colorTextLight),
+                arrayOf(Frame.colorSecondary, colorTextLight),
                 textColor
             )
         }
@@ -45,7 +43,7 @@ class SearchBar(private val frame: Frame) {
             x + width - 3,
             y + 23.5f,
             8f,
-            colorPrimary.rgb
+            Frame.colorPrimary.rgb
         )
 
         RoundUtils.drawSmoothRoundedRect(
@@ -72,7 +70,7 @@ class SearchBar(private val frame: Frame) {
             text,
             x + width - 2 - w / 2.0 - ConfigGui.fontRenderer16.getStringWidth(text) / 2.0,
             y + 15 - ConfigGui.fontRenderer16.getHeight() / 2.0,
-            colorPrimary
+            Frame.colorPrimary
         )
     }
 

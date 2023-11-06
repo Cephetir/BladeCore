@@ -1,6 +1,7 @@
 package me.cephetir.bladecore.config.gui.comps.settings
 
 import me.cephetir.bladecore.config.gui.ConfigGui
+import me.cephetir.bladecore.config.gui.comps.Frame
 import me.cephetir.bladecore.config.settings.impl.ButtonSetting
 import me.cephetir.bladecore.utils.ColorUtils
 import me.cephetir.bladecore.utils.minecraft.render.RenderUtils
@@ -8,7 +9,6 @@ import me.cephetir.bladecore.utils.minecraft.render.RoundUtils
 import java.awt.Color
 
 class ButtonSettingGui(private val setting: ButtonSetting) : SettingGui {
-    private val colorPrimary = Color(170, 0, 255)
     private val colorText = Color(191, 189, 193)
     private val colorTextLight = Color(229, 229, 229)
     private val colorBG = Color(0, 0, 0, 175)
@@ -40,7 +40,7 @@ class ButtonSettingGui(private val setting: ButtonSetting) : SettingGui {
             x + 5 + (6 + ConfigGui.fontRenderer24.getStringWidth(setting.name)).coerceAtLeast(80),
             y + 18 + ConfigGui.fontRenderer24.getHeight() / 2f,
             8f,
-            colorPrimary.rgb
+            Frame.colorPrimary.rgb
         )
 
         RoundUtils.drawSmoothRoundedRect(
@@ -56,7 +56,7 @@ class ButtonSettingGui(private val setting: ButtonSetting) : SettingGui {
             setting.name,
             x + 5 + (5 + ConfigGui.fontRenderer24.getStringWidth(setting.name)).coerceAtLeast(80) / 2.0 - ConfigGui.fontRenderer24.getStringWidth(setting.name) / 2.0,
             y + 15 - ConfigGui.fontRenderer24.getHeight() / 2.0,
-            colorPrimary
+            Frame.colorPrimary
         )
 
         val hov = x + 7 < mouseX && x + 7 + ConfigGui.fontRenderer24.getStringWidth(setting.name) > mouseX && y + 15f - ConfigGui.fontRenderer24.getHeight() / 2.0 < mouseY && y + 15f + ConfigGui.fontRenderer24.getHeight() / 2.0 > mouseY
@@ -73,7 +73,7 @@ class ButtonSettingGui(private val setting: ButtonSetting) : SettingGui {
                 setting.description!!,
                 mouseX + 7.0,
                 mouseY.toDouble(),
-                colorPrimary
+                Frame.colorPrimary
             )
         }
     }

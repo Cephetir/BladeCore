@@ -1,6 +1,7 @@
 package me.cephetir.bladecore.config.gui.comps.settings
 
 import me.cephetir.bladecore.config.gui.ConfigGui
+import me.cephetir.bladecore.config.gui.comps.Frame
 import me.cephetir.bladecore.config.settings.impl.BooleanSetting
 import me.cephetir.bladecore.utils.ColorUtils
 import me.cephetir.bladecore.utils.minecraft.render.RenderUtils
@@ -8,7 +9,6 @@ import me.cephetir.bladecore.utils.minecraft.render.RoundUtils
 import java.awt.Color
 
 class BooleanSettingGui(private val setting: BooleanSetting) : SettingGui {
-    private val colorPrimary = Color(170, 0, 255)
     private val colorText = Color(191, 189, 193)
     private val colorTextLight = Color(229, 229, 229)
     private val colorBG = Color(0, 0, 0, 175)
@@ -59,7 +59,7 @@ class BooleanSettingGui(private val setting: BooleanSetting) : SettingGui {
                 setting.description!!,
                 mouseX + 7.0,
                 mouseY.toDouble(),
-                colorPrimary
+                Frame.colorPrimary
             )
         }
 
@@ -69,7 +69,7 @@ class BooleanSettingGui(private val setting: BooleanSetting) : SettingGui {
             x + width - 3f,
             y + 23.5f,
             8f,
-            colorPrimary.rgb
+            Frame.colorPrimary.rgb
         )
 
         RoundUtils.drawSmoothRoundedRect(
@@ -87,7 +87,7 @@ class BooleanSettingGui(private val setting: BooleanSetting) : SettingGui {
             x + width - 11.5f + size,
             y + 15f + size,
             6f,
-            colorPrimary.rgb
+            Frame.colorPrimary.rgb
         )
     }
 

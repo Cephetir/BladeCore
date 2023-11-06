@@ -29,9 +29,9 @@ class ConfigGui(private val settingManager: SettingManager) : GuiScreen() {
         }
     }
 
-    private var old = mc.gameSettings.guiScale
+    private var old = me.cephetir.bladecore.utils.mc.gameSettings.guiScale
     init {
-        mc.gameSettings.guiScale = 2
+        me.cephetir.bladecore.utils.mc.gameSettings.guiScale = 2
     }
     private val frame = Frame(this, settingManager)
 

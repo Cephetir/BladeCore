@@ -1,6 +1,7 @@
 package me.cephetir.bladecore.config.gui.comps.settings
 
 import me.cephetir.bladecore.config.gui.ConfigGui
+import me.cephetir.bladecore.config.gui.comps.Frame
 import me.cephetir.bladecore.config.settings.impl.SelectorSetting
 import me.cephetir.bladecore.utils.ColorUtils
 import me.cephetir.bladecore.utils.minecraft.render.RenderUtils
@@ -9,7 +10,6 @@ import java.awt.Color
 import kotlin.math.max
 
 class SelectorSettingGui(private val setting: SelectorSetting) : SettingGui {
-    private val colorPrimary = Color(170, 0, 255)
     private val colorText = Color(191, 189, 193)
     private val colorTextLight = Color(229, 229, 229)
     private val colorBG = Color(0, 0, 0, 175)
@@ -65,7 +65,7 @@ class SelectorSettingGui(private val setting: SelectorSetting) : SettingGui {
                 setting.description!!,
                 mouseX + 7.0,
                 mouseY.toDouble(),
-                colorPrimary
+                Frame.colorPrimary
             )
         }
 
@@ -75,7 +75,7 @@ class SelectorSettingGui(private val setting: SelectorSetting) : SettingGui {
             x + width - 3,
             y + 23.5f,
             7f,
-            colorPrimary.rgb
+            Frame.colorPrimary.rgb
         )
 
         RoundUtils.drawSmoothRoundedRect(
@@ -92,7 +92,7 @@ class SelectorSettingGui(private val setting: SelectorSetting) : SettingGui {
             option,
             (x + width - 6 - wid / 2f - ConfigGui.fontRenderer16.getStringWidth(option) / 2f).toDouble(),
             y + 15 - ConfigGui.fontRenderer16.getHeight() / 2.0,
-            colorPrimary
+            Frame.colorPrimary
         )
     }
 

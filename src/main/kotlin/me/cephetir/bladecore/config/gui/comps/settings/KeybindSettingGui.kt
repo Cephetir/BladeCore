@@ -1,6 +1,7 @@
 package me.cephetir.bladecore.config.gui.comps.settings
 
 import me.cephetir.bladecore.config.gui.ConfigGui
+import me.cephetir.bladecore.config.gui.comps.Frame
 import me.cephetir.bladecore.config.settings.impl.KeybindSetting
 import me.cephetir.bladecore.utils.ColorUtils
 import me.cephetir.bladecore.utils.minecraft.render.RenderUtils
@@ -10,7 +11,6 @@ import org.lwjgl.input.Mouse
 import java.awt.Color
 
 class KeybindSettingGui(private val setting: KeybindSetting) : SettingGui {
-    private val colorPrimary = Color(170, 0, 255)
     private val colorText = Color(191, 189, 193)
     private val colorTextLight = Color(229, 229, 229)
     private val colorBG = Color(0, 0, 0, 175)
@@ -62,7 +62,7 @@ class KeybindSettingGui(private val setting: KeybindSetting) : SettingGui {
                 setting.description!!,
                 mouseX + 7.0,
                 mouseY.toDouble(),
-                colorPrimary
+                Frame.colorPrimary
             )
         }
 
@@ -72,7 +72,7 @@ class KeybindSettingGui(private val setting: KeybindSetting) : SettingGui {
             x + width - 3,
             y + 23.5f,
             8f,
-            colorPrimary.rgb
+            Frame.colorPrimary.rgb
         )
 
         RoundUtils.drawSmoothRoundedRect(
@@ -88,7 +88,7 @@ class KeybindSettingGui(private val setting: KeybindSetting) : SettingGui {
             keyName,
             x + width - 5 - ConfigGui.fontRenderer16.getStringWidth(keyName).coerceAtLeast(30) / 2.0 - ConfigGui.fontRenderer16.getStringWidth(keyName) / 2.0,
             y + 15 - ConfigGui.fontRenderer16.getHeight() / 2.0,
-            colorPrimary
+            Frame.colorPrimary
         )
     }
 

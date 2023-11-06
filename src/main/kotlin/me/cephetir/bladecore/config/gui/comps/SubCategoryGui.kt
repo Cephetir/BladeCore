@@ -45,7 +45,7 @@ class SubCategoryGui(private val frame: Frame, private val subCategory: SettingM
             subCategory.name,
             x + width / 2f - ConfigGui.fontRenderer32.getStringWidth(subCategory.name) / 2.0,
             (y + 15f - ConfigGui.fontRenderer32.getHeight() / 2f).toDouble(),
-            frame.colorPrimary
+            Frame.colorPrimary
         )
 
         for ((i, drawable) in currentSettings.withIndex())

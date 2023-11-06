@@ -2,8 +2,8 @@ import dev.architectury.pack200.java.Pack200Adapter
 import net.fabricmc.loom.task.RemapSourcesJarTask
 
 plugins {
-    kotlin("jvm") version "1.9.10"
-    kotlin("plugin.serialization") version "1.9.10"
+    kotlin("jvm") version "1.9.20"
+    kotlin("plugin.serialization") version "1.9.20"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("gg.essential.loom") version "0.10.0.+"
     id("dev.architectury.architectury-pack200") version "0.1.3"
@@ -11,7 +11,7 @@ plugins {
     `maven-publish`
 }
 
-version = "0.0.2-g"
+version = "0.0.2-h"
 group = "me.cephetir"
 
 base {
@@ -57,7 +57,7 @@ dependencies {
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
     // Essential
-    val essential = "gg.essential:essential-1.8.9-forge:14137+g9a1152893"
+    val essential = "gg.essential:essential-1.8.9-forge:14586+g3a23fbfae6"
     api(essential)
     compileOnly(essential)
     runtimeOnly("gg.essential:loader-launchwrapper:1.1.3") {
@@ -92,7 +92,7 @@ fun DependencyHandlerScope.include(dependency: Any) {
 
 sourceSets {
     main {
-        output.resourcesDir = file("${layout.buildDirectory.asFile.get()}/classes/kotlin/main")
+        output.setResourcesDir(file("${layout.buildDirectory.asFile.get()}/classes/kotlin/main"))
     }
 }
 

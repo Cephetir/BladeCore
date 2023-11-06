@@ -1,6 +1,7 @@
 package me.cephetir.bladecore.config.gui.comps.settings
 
 import me.cephetir.bladecore.config.gui.ConfigGui
+import me.cephetir.bladecore.config.gui.comps.Frame
 import me.cephetir.bladecore.config.settings.impl.TextSetting
 import me.cephetir.bladecore.utils.ColorUtils
 import me.cephetir.bladecore.utils.minecraft.render.RenderUtils
@@ -10,7 +11,6 @@ import net.minecraft.util.ChatAllowedCharacters
 import java.awt.Color
 
 class TextSettingGui(private val setting: TextSetting) : SettingGui {
-    private val colorPrimary = Color(170, 0, 255)
     private val colorText = Color(191, 189, 193)
     private val colorTextLight = Color(229, 229, 229)
     private val colorBG = Color(0, 0, 0, 175)
@@ -59,7 +59,7 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
                 setting.description!!,
                 mouseX + 7.0,
                 mouseY.toDouble(),
-                colorPrimary
+                Frame.colorPrimary
             )
         }
 
@@ -70,7 +70,7 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
             x + width - 3,
             y + 23.5f,
             8f,
-            if (focused) Color.green.rgb else colorPrimary.rgb
+            if (focused) Color.green.rgb else Frame.colorPrimary.rgb
         )
 
         RoundUtils.drawSmoothRoundedRect(
@@ -97,7 +97,7 @@ class TextSettingGui(private val setting: TextSetting) : SettingGui {
             text,
             x + width - 2 - w / 2.0 - ConfigGui.fontRenderer16.getStringWidth(text) / 2.0,
             y + 15 - ConfigGui.fontRenderer16.getHeight() / 2.0,
-            colorPrimary
+            Frame.colorPrimary
         )
     }
 
