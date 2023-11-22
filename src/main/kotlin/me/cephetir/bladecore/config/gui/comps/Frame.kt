@@ -19,7 +19,7 @@ import kotlin.math.max
 
 class Frame(val gui: GuiScreen, private val settingManager: SettingManager) {
     companion object {
-        val colorPrimary = Color(BladeConfig.primaryColorR.value.toInt(), BladeConfig.primaryColorG.value.toInt(), BladeConfig.primaryColorB.value.toInt())
+        var colorPrimary = Color(170, 0, 255)
         val colorSecondary = Color(191, 189, 193)
         val colorBG = Color(0, 0, 0, 175)
         val colorBGGlow = Color(17, 0, 25, 175)

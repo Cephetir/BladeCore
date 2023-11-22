@@ -2,8 +2,10 @@ package me.cephetir.bladecore.core.config
 
 import me.cephetir.bladecore.BladeCore
 import me.cephetir.bladecore.config.gui.ConfigGui
+import me.cephetir.bladecore.config.gui.comps.Frame
 import me.cephetir.bladecore.config.settings.SettingManager
 import me.cephetir.bladecore.utils.UwUtils
+import java.awt.Color
 
 object BladeConfig {
     private val sm = SettingManager(BladeCore.configFile, "BladeCore")
@@ -12,6 +14,9 @@ object BladeConfig {
         if (!BladeCore.mainDir.exists()) BladeCore.mainDir.mkdirs()
         if (!BladeCore.configFile.exists()) BladeCore.configFile.createNewFile()
 
+        primaryColorR.listener = { Frame.colorPrimary = Color(primaryColorR.value.toInt(), primaryColorG.value.toInt(), primaryColorB.value.toInt()) }
+        primaryColorG.listener = { Frame.colorPrimary = Color(primaryColorR.value.toInt(), primaryColorG.value.toInt(), primaryColorB.value.toInt()) }
+        primaryColorB.listener = { Frame.colorPrimary = Color(primaryColorR.value.toInt(), primaryColorG.value.toInt(), primaryColorB.value.toInt()) }
         sm.loadConfig()
         ConfigGui.Companion
     }

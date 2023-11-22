@@ -13,6 +13,7 @@ Minecraft Forge 1.8.9 developement library.
 ## Install
 ![Latest Version](https://badgen.net/github/tag/cephetir/bladecore)
 
+#### You need shadow plugin installed
 build.gradle.kts:
 ```kotlin
 repositories {
@@ -20,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    include("me.cephetir:bladecore-loader-1.8.9-forge:1.2")
+    shadow("me.cephetir:bladecore-loader-1.8.9-forge:1.2")
     compileOnly("me.cephetir:bladecore-1.8.9-forge:<LATEST>")
 }
 ```
