@@ -6,7 +6,7 @@ import java.awt.*
 import java.awt.image.BufferedImage
 
 
-open class CustomFont(val font: Font) {
+open class CustomFont(font: Font) {
     var size = 4096
     var texture: DynamicTexture?
     private var height = 0
@@ -17,7 +17,7 @@ open class CustomFont(val font: Font) {
         texture = setupTexture(font, charData)
     }
 
-    protected fun createFontImage(font: Font, chars: Array<CharData?>): BufferedImage {
+    private fun createFontImage(font: Font, chars: Array<CharData?>): BufferedImage {
         val image = BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB)
         val g = image.graphics as Graphics2D
         g.font = font
@@ -57,7 +57,7 @@ open class CustomFont(val font: Font) {
         return image
     }
 
-    fun setupTexture(font: Font, chars: Array<CharData?>): DynamicTexture? {
+    private fun setupTexture(font: Font, chars: Array<CharData?>): DynamicTexture? {
         val img = createFontImage(font, chars)
         try {
             return DynamicTexture(img)
@@ -85,7 +85,7 @@ open class CustomFont(val font: Font) {
         }
     }
 
-    protected fun drawQuad(x: Float, y: Float, width: Float, height: Float, srcX: Float, srcY: Float, srcWidth: Float, srcHeight: Float) {
+    private fun drawQuad(x: Float, y: Float, width: Float, height: Float, srcX: Float, srcY: Float, srcWidth: Float, srcHeight: Float) {
         val renderSRCX = srcX / size
         val renderSRCY = srcY / size
         val renderSRCWidth = srcWidth / size
