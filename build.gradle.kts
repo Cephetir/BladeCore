@@ -68,7 +68,7 @@ dependencies {
     include(platform(kotlin("bom")))
     include(kotlin("stdlib-jdk8"))
     include(kotlin("reflect"))
-    include("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.0")
+    include("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.1")
     include("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
 
     // Discord RPC

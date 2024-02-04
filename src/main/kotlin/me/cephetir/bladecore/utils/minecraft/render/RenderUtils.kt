@@ -14,10 +14,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 object RenderUtils {
-    fun setColor(color: Color, alpha: Float) {
-        val (red, green, blue) = color.getColorComponents(null)
-        GlStateManager.color(red, green, blue, alpha)
-    }
+    fun setColor(color: Color) = GlStateManager.color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
 
     @JvmStatic
     fun drawRect(left: Float, top: Float, right: Float, bottom: Float, color: Color) {
@@ -40,7 +37,7 @@ object RenderUtils {
         GlStateManager.enableBlend()
         GlStateManager.disableTexture2D()
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
-        setColor(color, color.alpha / 255f)
+        setColor(color)
         worldrenderer.begin(7, DefaultVertexFormats.POSITION)
         worldrenderer.pos(left.toDouble(), bottom.toDouble(), 0.0).endVertex()
         worldrenderer.pos(right.toDouble(), bottom.toDouble(), 0.0).endVertex()
@@ -90,7 +87,7 @@ object RenderUtils {
         GlStateManager.enableBlend()
         GlStateManager.disableTexture2D()
         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO)
-        setColor(color, color.alpha.toFloat())
+        setColor(color)
         GL11.glEnable(GL11.GL_LINE_SMOOTH)
         GL11.glLineWidth(lineWidth)
         GL11.glBegin(GL11.GL_LINE_STRIP)

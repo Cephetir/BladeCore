@@ -43,7 +43,7 @@ class SearchBar(private val frame: Frame) {
             x + width - 3,
             y + 23.5f,
             8f,
-            Frame.colorPrimary.rgb
+            if (focused) Color.green.rgb else Frame.colorPrimary.rgb
         )
 
         RoundUtils.drawSmoothRoundedRect(
